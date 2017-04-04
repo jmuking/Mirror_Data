@@ -61,16 +61,22 @@ static PyObject *toPy(PyObject *self)
 
 	int i;
 	int sum_chan0 = 0; int sum_chan1 = 0;
-	for(i=0; i<100; i++)
+	int sum_chan2 = 0; int sum_chan3 = 0;
+	for(i=0; i<10; i++)
 	{
 		sum_chan0 += adc_read(0);
 		sum_chan1 += adc_read(1);
-		usleep(1000);
+		sum_chan2 += adc_read(2);
+		sum_chan3 += adc_read(3);
+		usleep(100);
 	}
-	sum_chan0 /= 100; sum_chan1 /= 100;
+	sum_chan0 /= 10; sum_chan1 /= 10;
+	sum_chan2 /= 10; sum_chan3 /= 10;
 
 	if(sum_chan0 > 250){event = 0;}
 	if(sum_chan1 > 250){event = 1;}	
+	if(sum_chan2 > 250){event = 2;}
+	if(sum_chan3 > 250){event = 3;}
 
 	return Py_BuildValue("i", event);
 }

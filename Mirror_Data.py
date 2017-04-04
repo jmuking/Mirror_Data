@@ -90,7 +90,7 @@ class Mirror_Data:
 
     def getWind(self):
         windSpeed = float(self.weather_wind['speed'])
-        windDir = me.degToCompass(float(self.weather_wind['deg']))
+        windDir = self.degToCompass(float(self.weather_wind['deg']))
 
         wind = [windDir,windSpeed]
         return wind

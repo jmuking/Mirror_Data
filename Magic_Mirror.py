@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 import toPy
 from Mirror_Data import Mirror_Data
+#import Mirror_GUI as m
 
 #Sensor Configuration
 #
@@ -28,14 +30,20 @@ from Mirror_Data import Mirror_Data
 #
 #-----------------------------------------
 
+#pageDict = ['WeatherPage', 'NewsPage']
+
 toPy.toPy_start()
+
+mirror = Mirror_Data(1)
+#c = m.Controller()
+#c.initializeWindows()
 
 event_lst = []
 cap_flag = 0
 
 while(1):
 	event = toPy.toPy()
-	
+
 	#Optional for Debugging
 	#print "Sensor Event : " + str(event)
 	
@@ -45,7 +53,7 @@ while(1):
 	if(cap_flag == 1): #Start capturing
 		event_lst.append(event) #Append events to list
 	
-		if(len(event_lst) >= 10): #Check last 10 events for state
+		if(len(event_lst) >= 100): #Check last 10 events for state
 			flags = []
 			state = -1
 
@@ -72,8 +80,56 @@ while(1):
 						state = 10
 					if(e == 2):
 						state = 11
-		
+				
+			if(state == 0):
+				print "DATE: " + mirror.getDate()
+
+			if(state == 1):
+				print "TIME: " + mirror.getTime()
+
+			if(state == 2):
+				print "TEMP: " + str(mirror.getTemp()[0])
+
+			if(state == 3):
+				print "NOT IMPLEMENTED"
+
+			if(state == 4):
+				print "HUMIDITY: " + str(mirror.getHumidity())
+
+			if(state == 5):
+				print "WIND: " + str(mirror.getWind()[0]) + " at " + str(mirror.getWind()[1]) + " MPH"		
+
+			if(state == 6):
+				print "NEWS: " + mirror.nextArticle()[0]					
+
+			if(state == 7):
+				print "NOT IMPLEMENTED"
+
+			if(state == 8):
+				print "NOT IMPLEMENTED"
+
+			if(state == 9):
+				print "NOT IMPLEMENTED"
+
+			if(state == 10):
+				print "NOT IMPLEMENTED"
+
+			if(state == 11):
+				print "NOT IMPLEMENTED"
+			
+			#try:				
+			#	c.show_frame(pageDict[state])
+			#except:
+			#	pass
+
+			print ""
 			print "State : " + str(state)
+			print ""
+			print ""
+
+			mirror.refreshNews()
+			mirror.refreshWeather()	
+
 			cap_flag = 0
 			event_lst = []
 	  
